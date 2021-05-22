@@ -373,12 +373,7 @@ public class Menu{
 
     }     
     
-    public boolean addProduct(Product product) {
-//    	if(MBS.productList.length == 0) {
-//    	   MBS.productList = new Product[1];
-//    	   MBS.productList[0] = product; 
-//    	   return true;
-//        }else {    	
+    public boolean addProduct(Product product) {   	
     	    for(int i = 0; i < MBS.productList.length; ++i) {	    	
                 if (MBS.productList[i].getName().equals(product.getName())) {
       	            return false;
@@ -387,7 +382,6 @@ public class Menu{
         MBS.productList = Arrays.copyOf(MBS.productList, MBS.productList.length + 1);
         MBS.productList[MBS.productList.length - 1] = product;
         return true;
-//    }
     }
     
 }
