@@ -26,6 +26,7 @@ public class RegularPackage {
 		return productArray;
 	}
 	public boolean addProduct(Product product) {
+		
             for(int i = 0; i < this.productArray.length; i++) {
                 if (this.productArray[i].getName().equals(product.getName()) ) {
                     return false;
@@ -42,8 +43,5 @@ public class RegularPackage {
 		}
 		return sumCost;
 	}
-	public String toString() {		
-		String RegularPackageInfo = String.format("%-20s"+"%-15s",getCustomer(),getProducts());
-		return RegularPackageInfo;
-	}
+	
 }

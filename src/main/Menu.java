@@ -117,8 +117,8 @@ public class Menu{
     	  
        }else if(order.equalsIgnoreCase("pp")){
     	   while(true) {    		   
-    		   String customerChoice = null;
-    		   String productChoice = null;
+    		   String customerChoice;
+    		   String productChoice;
     		   String deliverDay;
     		   String deliverMonth;
     		   String deliverYear;
@@ -192,16 +192,17 @@ public class Menu{
 //    		   ##Platinum Package
     		   else if(IsPlatinumPackage.equalsIgnoreCase("y")) {
     			   System.out.printf("Enter your member number: ");
-    			   platinumpackage.memberNumber = input.nextLine();
-    			   if(platinumpackage.memberNumber.isEmpty())
+    			   String platinumNumber = input.nextLine();
+    			   if(platinumNumber.isEmpty())
     				   break;    			   
-    			   if(PlatinumPackage.isValidMemberNumber(platinumpackage.memberNumber)) {
+    			   if(PlatinumPackage.isValidMemberNumber(platinumNumber)) {
     				   Customer customer = new Customer(MBS.customerList[Integer.parseInt(customerChoice)-1].getId(),MBS.customerList[Integer.parseInt(customerChoice)-1].getFirstName(),MBS.customerList[Integer.parseInt(customerChoice)-1].getLastName(),MBS.customerList[Integer.parseInt(customerChoice)-1].getAddress());        			   
         			   Product Product = new Product(MBS.productList[Integer.parseInt(productChoice)-1].getName(),MBS.productList[Integer.parseInt(productChoice)-1].getWeight(),MBS.productList[Integer.parseInt(productChoice)-1].getCost()); 			 
-        			   PlatinumPackage platinum = new PlatinumPackage(date,customer,Product,platinumpackage.memberNumber);
+        			   PlatinumPackage platinum = new PlatinumPackage(date,customer,Product,platinumNumber);
         			   
-        			   MBS.Platinum = new PlatinumPackage[1];
-        			   MBS.Platinum[0] = platinum;
+        			   MBS.Platinum = Arrays.copyOf(MBS.Platinum, MBS.Platinum.length+1);
+        	           MBS.Platinum [MBS.Platinum.length-1] = platinum;
+
         			   
         			   while(true) {
               			    System.out.printf("Would you like to add another product in your package?(Y/N): ");
@@ -220,7 +221,7 @@ public class Menu{
               			        	System.err.println("Please enter valid number.");
               			        	break;       			     
               			        }              			        
-              			        if(platinumpackage.addProduct(MBS.productList[Integer.parseInt(productChoice)-1])) {
+              			        if(MBS.Platinum[MBS.Platinum.length - 1].addProduct(MBS.productList[Integer.parseInt(productChoice)-1])) {
               			        	System.out.println("Product "+ MBS.productList[Integer.parseInt(productChoice)-1].getName() +" added to package succcessfully." );              			        	
               			        }else {
               			        	System.err.println("Unable to add product to the package, product "+ MBS.productList[Integer.parseInt(productChoice)-1].getName() +" already exist." );              			        	
@@ -232,20 +233,24 @@ public class Menu{
                			    	System.err.println("Invalid, please try again.");                   			    
                			    }  
               			  }	   
-             			    System.out.println("Package for "+ MBS.customerList[Integer.parseInt(customerChoice)-1].getFullName() +" was successfully perpared." );      		   
-              		        break; 
     			   }else {
     				   System.err.println("Invalid member number, please try again.");
     				   System.out.println();
     			   }
+    			   System.out.println("Package for "+ MBS.customerList[Integer.parseInt(customerChoice)-1].getFullName() +" was successfully perpared." );      		   
+
+    			   System.out.println();
+    		         run();
     			   
 //    			## Regular Package   
-    		   }else if(IsPlatinumPackage.equalsIgnoreCase("n")) {
+    		   }else if(IsPlatinumPackage.equalsIgnoreCase("n")) {    			   
+    			   
     			   Customer customer = new Customer(MBS.customerList[Integer.parseInt(customerChoice)-1].getId(),MBS.customerList[Integer.parseInt(customerChoice)-1].getFirstName(),MBS.customerList[Integer.parseInt(customerChoice)-1].getLastName(),MBS.customerList[Integer.parseInt(customerChoice)-1].getAddress());    			   
     			   Product Product = new Product(MBS.productList[Integer.parseInt(productChoice)-1].getName(),MBS.productList[Integer.parseInt(productChoice)-1].getWeight(),MBS.productList[Integer.parseInt(productChoice)-1].getCost()); 			   			   
     			   RegularPackage regular = new RegularPackage(date,customer,Product);  			   
-    			   MBS.Regular = new RegularPackage[1];
-    			   MBS.Regular[0] = regular;
+    			   MBS.Regular = Arrays.copyOf(MBS.Regular, MBS.Regular.length+1);
+    	           MBS.Regular [MBS.Regular.length-1] = regular;
+
     			   
     			   while(true) {
     				   index = 1;
@@ -263,11 +268,11 @@ public class Menu{
        			        if(productChoice.isEmpty())
        				        break;
        			        
-       			        if(Integer.parseInt(productChoice) <= 0 || Integer.parseInt(productChoice) > MBS.productList.length) {
+       			        else if(Integer.parseInt(productChoice) <= 0 || Integer.parseInt(productChoice) > MBS.productList.length) {
        			        	System.err.println("Invalid  product number, please try again.");
        			        	break;       			     
-       			        }   
-       			        if(regularpackage.addProduct(MBS.productList[Integer.parseInt(productChoice)-1])) {
+       			        }          			               			        
+       			        else if(MBS.Regular[MBS.Regular.length - 1].addProduct(MBS.productList[Integer.parseInt(productChoice)-1])) {       	
        			        	System.out.println("Product "+ MBS.productList[Integer.parseInt(productChoice)-1].getName() +" added to package succcessfully." );
        			        }else {
        			        	System.err.println("Unable to add product to the package, product "+ MBS.productList[Integer.parseInt(productChoice)-1].getName() +" already exist." );       			        	
@@ -277,14 +282,17 @@ public class Menu{
        			    	break;
        			    }else {
        			    	System.err.println("Invalid, please try again.");       			    
-       			    }
+       			    }	    
        			  }   			   
-      			    System.out.println("Package for "+ MBS.customerList[Integer.parseInt(customerChoice)-1].getFullName() +" was successfully perpared." );      		   
-       		        break; 
+      			    System.out.println("Package for "+ MBS.customerList[Integer.parseInt(customerChoice)-1].getFullName() +" was successfully perpared." );  
+      			    
+      			    
+    		        break; 
     		   }else {
     			   System.err.println("Invalid, please try again.");
     		   }
-    	   }System.out.println();
+    	   } 	   
+    	   System.out.println();
 	         run();
     	   
        }else if(order.equalsIgnoreCase("dc")){
@@ -306,7 +314,8 @@ public class Menu{
     	   }else {
     		   
     		   System.out.println("------------------------------------");
-    		   System.out.println("Regular Package "); 
+    		   System.out.println("Regular Package ");     		   
+    		   
     		   if(MBS.Regular.length == 0) {
     			   System.err.println("There are no regular packages in the system");
     		   }
@@ -323,6 +332,7 @@ public class Menu{
     		       for(int j=0;j<MBS.Regular[i].getProducts().length;j++) {
     		    	   System.out.printf("%-22s%-15s%-15s\n",(MBS.Regular[i].getProducts())[j].getName(),Integer.toString(MBS.Regular[i].getProducts()[j].getWeight()) + "g", "ก็"+Double.toString(MBS.Regular[i].getProducts()[j].getCost()));
     		       }
+    		       System.out.println();
     	       }
     		   
     		   System.out.println("------------------------------------");
