@@ -1,0 +1,5 @@
+Name                Weight         Cost           
+The Lion King       320g           ก็17.99         
+Man of Steel        300g           ก็24.99         
+Avengers            500g           ก็30.0          
+Inception           500g           ก็20.05         
